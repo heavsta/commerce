@@ -1,0 +1,292 @@
+body {
+    padding: 0;
+    font-size: 'Roboto', sans-serif;
+}
+
+.msg-con {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+}
+
+.messages {
+    display: inline-block;
+    width: auto;
+}
+
+nav {
+    background-color: #E9ECEF;
+}
+
+nav .nav-link.log {
+    padding-right: 0 !important;
+}
+
+.navbar-brand {
+    font-family: 'Anton', sans-serif;
+}
+
+.navbar-brand img {
+    position: relative;
+}
+
+.navbar-brand .brand {
+    font-size: 1.5em;
+}
+
+.navbar-nav.mr-auto {
+    margin-left: 90px;
+}
+
+.dropdown-menu {
+    margin-top: 0;
+}
+
+.textarea-small {
+    height: 120px !important;
+}
+
+.jumbotron {
+    padding: 1rem 0.75rem;
+}
+
+h1 {
+    font-size: 2em;
+    font-family: 'Roboto Condensed';
+    margin: 20px 0 0 0;
+}
+
+.item-col {
+    padding: 15px;
+}
+
+.item {
+    position: relative;
+    height: 400px;
+    background-color: #E9ECEF;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.item-img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 220px;
+    margin: 0 auto;
+    background-color: #fff;
+    margin-bottom: 5px;
+}
+
+.item-img img.img-fluid {
+    max-width: 220px;
+    max-height: 220px;
+}
+
+.item a {
+    color: #343a40;
+    text-decoration: none;
+}
+
+.item a:hover ~ div h3, .item a:hover ~ div .item-description, .item a:hover h3, .item a:hover .item-description {
+    text-decoration: underline;
+}
+
+.item-price {
+    position: absolute;
+    font-size: 1em;
+    font-weight: bold;
+    color: seagreen;
+    right: 20px;
+    bottom: 0;
+}
+
+.item-price:hover {
+    text-decoration: none;
+}
+
+.item h3 {
+    font-size: 1.1em;
+    padding: 5px 10px 5px 10px;
+    margin-bottom: 0;
+}
+
+.item-category {
+    font-size: 0.8em;
+    font-family: 'Roboto Condensed', serif;
+    color: rgb(102, 105, 109);
+    margin-top: 0;
+    margin-bottom: 5px;
+    padding: 0 10px;
+}
+
+.item-description {
+    font-size: 0.80em;
+    padding: 0 10px;
+}
+
+.row.entitling {
+    position: relative;
+}
+
+.filter {
+    position: absolute;
+    left: 40px;
+    top: 90px;
+}
+
+.filter ul {
+    list-style-type: none;
+    font-size: 1em;
+}
+
+.filter ul a {
+    color: #212529;
+}
+
+.filter li.active a {
+    font-weight: bold;
+}
+
+#new-listing {
+    border-radius: 10px;
+    padding: 25px 50px 50px 50px;
+    margin: 40px 0;
+    background-color: #E9ECEF;
+}
+
+#new-listing h1 {
+    margin-top: 0;
+}
+
+#new-listing label {
+    margin-left: 1rem;
+}
+
+#new-listing #id_title {
+    width: 70%;
+}
+
+#new-listing #id_category {
+    width: 20%;
+}
+
+#new-listing #id_description {
+width: 93.2%;
+}
+
+#new-listing #id_picture {
+    width: 49.8%;
+}
+
+#new-listing #submit {
+    text-align: right;
+}
+
+#new-listing #submit input[type="submit"] {
+    margin-top: 10px;
+    margin-right: 52px;
+}
+
+.listing .col img {
+    max-width: 380px;
+    max-height: 380px;
+    padding: 5px 35px;
+}
+
+.listing a {
+    color: #343a40;
+    display: block;
+}
+
+.listing .col-lg-5 {
+    background-color: #f1f1f1;
+    padding: 20px 30px;
+}
+
+.listing .col-lg-4 {
+    margin: auto;
+}
+
+.listing .col-lg-3 {
+    background-color: #f1f1f1;
+    text-align: right;
+    padding: 0 30px;
+}
+
+.listing .desc-block {
+    margin-top: 20px;
+}
+
+.listing .desc-block p {
+    margin-top: 30px;
+    max-width: 380px;
+}
+
+.listing .bidding {
+    margin-top: 95px;
+}
+
+.listing .price {
+    color: #29A6EC;
+    font-weight: bold;
+}
+
+#comments .comment {
+    position: relative;
+    display: flex;
+}
+
+#comments .comment::before {
+    content: "\A";
+    position: absolute;
+    width: 0; 
+    height: 0; 
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent; 
+    border-right: 15px solid #E9ECEF;
+    top: 10px;
+    left: 85px;
+}
+
+#comments .form-group {
+    width: 80%;
+}
+
+
+#comments input[type="submit"] {
+    padding: 5px 25px;
+    display: block;
+    margin: 10px 0 10px auto;
+}
+
+#comments .avatar {
+    width: 70px;
+    height: 70px;
+}
+
+#comments .jumbotron {
+    max-width: 90%;
+    margin-left: 30px;
+    padding: 10px 25px;
+}
+
+#comments .text-secondary {
+    font-size: 0.85em;
+}
+
+.pagination ul {
+    list-style-type: none;
+}
+
+.pagination li {
+    display: inline;
+    padding: 10px;
+    border: 1px solid #E9ECEF;
+    margin: 0;
+}
+
+.pagination li.arrow {
+    border: none;
+}

@@ -1,0 +1,94 @@
+{% extends 'auctions/layout.html' %}
+
+{% load static %}
+
+{% block body %}
+    {% if listing %}
+        <div class="listing mt-5">
+            <div class="text-center mb-5">
+                {% if not listing.active %}
+                    <h1>Auction closed! The winner is {{ listing.bids.last.user.username }}.</h1>
+                {% endif %}
+            </div>
+            <div class="row mt-3">
+                <div class="col col-lg-4 text-center">
+                    <img src="{{ listing.picture }}" alt="{{ listing.title }}" class="img-fluid">
+                </div>
+                <div class="col col-lg-5">
+                    <div class="desc-block">
+                        <h3>{{ listing.title }}</h3>
+                        <p>{{ listing.description }}</p>
+                    </div>
+                </div>
+                <div class="col col-lg-3">
+                    <!-- actions -->
+                    <div class="actions">
+                        {% if user.is_authenticated and listing.active %}
+                            {% if in_watchlist %}
+                                <a href="{% url 'del_from_watchlist' listing.id %}" class="my-3">Remove from Watchlist</a>
+                            {% else %}
+                                <a href="{% url 'add_to_watchlist' listing.id %}" class="my-3">Add to Watchlist</a>
+                            {% endif %}
+                            {% if user == listing.creator %}
+                                <a href="{% url 'close_auction' listing.id %}" class="my-3">Close Auction</a>
+                            {% endif %}
+                        {% endif %}
+                        {% if user.is_authenticated and not listing.active %}
+                            {% if in_watchlist %}
+                                <a href="{% url 'del_from_watchlist' listing.id %}" class="my-3">Remove from Watchlist</a>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                    <!-- Bidding -->
+                    <div class="bidding">
+                        <p><strong>Starting Price: <span class="{% if listing.bids.last == None %}price{% endif %}">${{ listing.starting_price }}</span></strong></p>
+                        {% if listing.bids.last != None %}
+                            <h4>Latest bid: <span class="price">${{ listing.bids.last.value }}</span></h4>
+                        {% else %}
+                            <p>No bids placed yet! Be the first one to place a bid on this item!</p>
+                        {% endif %}
+                        {% if user.is_authenticated %}
+                            <form class="form-group" action="{% url 'place_bid' listing.id %}" method="POST">
+                                {% csrf_token %}
+                                <input class='form-control' type="number" name="bid">
+                                <input class='btn btn-primary mt-3' type="submit" value="Place Bid">
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Comments -->
+        <div class="mt-5" id="comments">
+            <h3>Comments</h3>
+            {% if user.is_authenticated %}
+                <form action="{% url 'post_comment' listing.id %}" class='form-group mb-4' method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        {{ form.content }}
+                        <input type="submit" value="Post" class="btn btn-primary">
+                    </div>
+                </form>
+            {% else %}
+                <p class="my-5">Wanna share anything on this auction? Please <a href="{% url 'login' %}?next={% url 'show_listing' listing.id %}">Log in</a></p>
+            {% endif %}
+            {% if comments %}
+                {% for comment in comments %}
+                    <div class="comment">
+                        <div class="avatar text-center">
+                            <img src="{% static '/auctions/img/unknown-avatar.png' %}" alt="Avatar" class="img-fluid">
+                            {{ comment.user }}
+                        </div>
+                        <div class="jumbotron">
+                            <h5><span class="text-secondary">{{ comment.get_date }}</span> </h5>
+                            <p>{{ comment.content }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <h4>No comments on this auction yet!</h4>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endblock body %}

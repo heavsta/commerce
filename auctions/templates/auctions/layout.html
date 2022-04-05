@@ -1,0 +1,85 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}Auctions{% endblock %}</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Anton&family=Roboto&family=Roboto+Slab&family=Roboto+Condensed&display=swap" rel="stylesheet"> 
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link href="{% static 'auctions/styles.css' %}" rel="stylesheet">
+        <script src="{% static 'auctions/script.js' %}"></script>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container">
+                <a class="navbar-brand" href="{% url 'index' %}">
+                    <img src="{% static '/auctions/img/logo150.png' %}" width="80" height="80" class="d-inline-block align-top" alt="">
+                    <span class="brand">BiddingHub</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+              
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'index' %}">Trending</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Categories
+                      </a>
+                      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        {% for category in categories %}
+                            <a href="{% url 'categories_filter' category.id %}" class="dropdown-item">
+                                {{ category.name }}
+                            </a>
+                        {% endfor %}
+                      </div>
+                    </li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a href="{% url 'watchlist' %}" class="nav-link">Watchlist</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'create_listing' %}" class="nav-link">New Listing</a>
+                        </li>
+                    {% endif %}
+                  </ul>
+                  <ul class="navbar-nav my-2 my-lg-0">
+                    {% if user.is_authenticated %}
+                        <li class="mt-2">
+                            Signed in as&nbsp;<strong>{{ user.username }}</strong>.
+                        </li>
+                        <li>
+                            <a href="{% url 'logout' %}" class="nav-link log">Log out</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">Log In</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link log" href="{% url 'register' %}">Register</a>
+                        </li>
+                    {% endif %}
+                  </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            {% if messages %}
+                <div class="msg-con text-center">
+                    {% for message in messages %}
+                        <div class="messages mb-2 alert {% if message.tags %}{{ message.tags }}{% endif %}" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% block body %}
+            {% endblock %}
+        </div>
+    </body>
+</html>

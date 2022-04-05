@@ -1,0 +1,87 @@
+{% extends "auctions/layout.html" %}
+{% load static %}
+
+{% block body %}
+    <div class="row entitling">
+        <div class="col offset-md-3 mt-3"><h1>Trending{% if category %} - {{ category.name }}{% endif %}</h1></div>
+        <div class="filter">
+            <p>Filter by:</p>
+            <ul>
+                {% url 'index' as url %}
+                <li class="{% if request.path == url %}active{% endif %}">
+                    <a href="{{ url }}">All</a>
+                </li>
+                {% for category in categories %}
+                    {% url 'categories_filter' category.id as url %}
+                    <li class="{% if request.path == url %}active{% endif %}">
+                        <a href="{{ url }}">{{ category.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    {% for listing in active_listings %}
+        {% if forloop.counter0|divisibleby:3 %}
+            <div class="row mb-4 mt-2">
+                <div class="item-col col col-lg-3 p-2 offset-md-3">
+        {% else %}
+                <div class="item-col col col-lg-3 p-2">
+        {% endif %}
+                    <div class="item">
+                        <a href="{% url 'show_listing' listing.id %}">
+                            <div class="item-img">
+                                {% if listing.picture %}
+                                    <img src="{{ listing.picture }}" alt="{{ listing.title }}" class="img-fluid p-3">
+                                {% else %}
+                                    <img src="{% static 'auctions/img/picture-missing.jpg' %}" alt="{{ listing.title }}" class="img-fluid p-3">    
+                                {% endif %}
+                            </div>
+                        </a>
+                        <div>
+                            <p class="item-category">{{ listing.category }}</p>
+                            <a href="{% url 'show_listing' listing.id %}">
+                                <h3>{{ listing.title | truncatechars:45 }}</h3>
+                                <p class="item-description">{{ listing.description | truncatechars:65 }}</p>
+                            </a>
+                        </div>
+                        {% if listing.bids.last == None %}
+                            <p class="item-price text-right">${{ listing.starting_price }}</p>
+                        {% else %}
+                            <p class="item-price text-right">${{ listing.bids.last.value }}</p>
+                        {% endif %}
+                    </div>
+            </div>
+        {% if forloop.counter|divisibleby:3 or forloop.last %}</div>{% endif %}
+    {% empty %}
+        <div class="row mb-4 mt-2">
+        <div class="item-col col col-lg-3 p-3 offset-md-3">
+                There are no active listings for now!
+            </div>
+        </div>
+    {% endfor %}
+    <!-- pagination -->
+    <div class="pagination row my-5">
+        <ul class="step-links col col-lg-9 offset-md-3">
+            {% if active_listings.has_previous %}
+                <li class="arrow"><a href="?page={{ active_listings.previous_page_number }}">&laquo;</a></li>
+            {% elif active_listings.paginator.num_pages > 1 %}
+                <li class="disabled arrow">&laquo;</li>
+            {% endif %}
+
+            {% for i in active_listings.paginator.page_range %}
+                {% if active_listings.number == i %}
+                    <li class="active">{{ i }}</li>
+                {% elif active_listings.paginator.num_pages > 1 %}
+                    <li><a href="?page={{ i }}">{{ i }}</a></li>
+                {% endif %}
+            {% endfor %}
+
+            {% if active_listings.has_next %}
+                <li class="arrow"><a href="?page={{ active_listings.next_page_number }}">&raquo;</a></li>
+            {% elif active_listings.paginator.num_pages > 1 %}
+                <li class="disabled arrow"><span>&raquo;</span></li>
+            {% endif %}
+        </ul>
+    </div>
+{% endblock %}

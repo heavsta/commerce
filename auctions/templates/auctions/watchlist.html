@@ -1,0 +1,39 @@
+{% extends 'auctions/layout.html' %}
+{% load static %}
+
+{% block body %}
+    <h1>Watchlist</h1>
+    {% for fav in watchlist %}
+        {% if forloop.counter0|divisibleby:4 %}
+        <div class="row mb-4 mt-2">
+        {% endif %}
+            <div class="item-col col col-lg-3 p-2">
+                <div class="item">
+                    <a href="{% url 'show_listing' fav.item.id %}">
+                        <div class="item-img">
+                            {% if fav.item.picture %}
+                                <img src="{{ fav.item.picture }}" alt="{{ fav.item.title }}" class="img-fluid p-3">
+                            {% else %}
+                                <img src="{% static 'auctions/img/picture-missing.jpg' %}" alt="{{ fav.item.title }}" class="img-fluid p-3">    
+                            {% endif %}
+                        </div>
+                    </a>
+                    <div>
+                        <p class="item-category">{{ fav.item.category }}</p>
+                        <a href="{% url 'show_listing' fav.item.id %}">
+                            <h3>{{ fav.item.title | truncatechars:45 }}</h3>
+                            <p class="item-description">{{ fav.item.description | truncatechars:65 }}</p>
+                        </a>
+                    </div>
+                    {% if fav.item.bids.last == None %}
+                        <p class="item-price text-right">${{ fav.item.starting_price }}</p>
+                    {% else %}
+                        <p class="item-price text-right">${{ fav.item.bids.last.value }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        {% if forloop.counter|divisibleby:4 %}</div>{% endif %}
+    {% empty %}
+        <p>Watchlist empty!</p>
+    {% endfor %}
+{% endblock body %}
